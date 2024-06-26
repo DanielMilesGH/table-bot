@@ -1,15 +1,13 @@
 class BaseRobot():
     x: int # positive integer
     y: int # positive integer 
-    def __init__(self, x:int=None, y:int=None, pos:tuple[int,int]=None):
+    def __init__(self, x:int, y:int, pos:tuple[int,int] | None = None):
         if (pos != None):
             self.x=pos[0]
             self.y=pos[1]
-        elif (x!=None & y!=None):  
+        else:  
             self.x = x
             self.y = y 
-        else:
-            raise ValueError("need to give position")
 
     def get_pos(self) -> tuple[int,int]:
         return (self.x, self.y)
@@ -22,3 +20,8 @@ class BaseRobot():
         self.x=pos[0]
         self.y=pos[1]
     
+
+
+
+if __name__ == "__main__":
+    print("hello!")
