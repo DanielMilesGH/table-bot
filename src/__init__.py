@@ -1,2 +1,2 @@
-# src/python/__init__.py
+# src/__init__.py
 # empty file needed for package recognition
