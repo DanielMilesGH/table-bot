@@ -9,8 +9,8 @@ class BaseRobot():
             self.x = x
             self.y = y 
         
-        # images should be 300x300, making robot length 0.05 image
-        self.size = 15
+        # images should be 400x400, making robot length 0.05 image
+        self.size = 20
 
     def get_pos(self) -> tuple[int,int]:
         return (self.x, self.y)
