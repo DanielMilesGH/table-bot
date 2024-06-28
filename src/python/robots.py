@@ -40,4 +40,4 @@ class PygameRobot(BaseRobot):
 
 
 if __name__ == "__main__":
-    print("hello!")
+    print("This is meant for importing!")
