@@ -6,7 +6,7 @@ import robots
 
 clock = pygame.time.Clock()
 MAX_SIZE = (400,400)
-image = Image.open(r"C:\\Users\\alex\\table-bot\\data\\preset-images\\hard_image.jpg")
+image = Image.open(r"data\\preset-images\\hard_image.jpg")
 image.thumbnail(MAX_SIZE)
 
 screen = pygame.display.set_mode(image.size)
