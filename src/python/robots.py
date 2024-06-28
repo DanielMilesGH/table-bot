@@ -1,3 +1,4 @@
+import pygame
 class BaseRobot():
     x: int # positive integer
     y: int # positive integer 
@@ -20,7 +21,7 @@ class BaseRobot():
         return self.y 
 
     # returns params to make pygame rect
-    def to_pygame_rect(self) -> tuple[int,int,int,int]:
+    def get_pos_width(self) -> tuple[int,int,int,int]:
         return (self.x, self.y, self.size, self.size)
     
     def update_pos(self, pos:tuple[int,int]):
@@ -32,6 +33,10 @@ class BaseRobot():
         self.y += dy
     
 
+class PygameRobot(BaseRobot):
+    # inherits all base methods
+    def to_pygame_rect(self) -> pygame.Rect:
+        return pygame.Rect(self.x, self.y, self.size, self.size)
 
 
 if __name__ == "__main__":

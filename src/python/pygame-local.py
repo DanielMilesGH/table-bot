@@ -103,7 +103,7 @@ def lines_intersect(x1, y1, x2, y2, x3, y3, x4, y4):
 
 
 run = True
-robot = robots.BaseRobot(0,0)
+robot = robots.PygameRobot(0,0)
 pygame.display.set_caption("Moving")
 while run:
     clock.tick(60)
