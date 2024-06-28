@@ -33,7 +33,7 @@ def record_line(screen):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 recording = False  # Stop recording and switch to movement when ESC is pressed
 
-           if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 # Left click for drawing
                 if event.button == 1:
                     if not drawing:  
