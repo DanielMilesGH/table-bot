@@ -33,19 +33,25 @@ def record_line(screen):
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 recording = False  # Stop recording and switch to movement when ESC is pressed
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if not drawing:  
-                    drawing = True
-                    start_pos = event.pos  # Record starting point
-                else:
-                    drawing = False
-                    end_pos = event.pos  # Record ending point
+           if event.type == pygame.MOUSEBUTTONDOWN:
+                # Left click for drawing
+                if event.button == 1:
+                    if not drawing:  
+                            drawing = True
+                            start_pos = event.pos  # Record starting point
+                    else:
+                        drawing = False
+                        end_pos = event.pos  # Record ending point
 
-                    # Print coordinates for Pygame (tuples)
-                    print(f"Line: {start_pos}, {end_pos}")  
-                    lines.append((screen, line_color, start_pos, end_pos, 2))
-                    # Draw the line on the screen   
-                    start_pos = None # Reset starting position after drawing line
+                        # Print coordinates for Pygame (tuples)
+                        print(f"Line: {start_pos}, {end_pos}")  
+                        lines.append((screen, line_color, start_pos, end_pos, 2))
+                        # Draw the line on the screen   
+                        start_pos = None # Reset starting position after drawing line
+
+                # Right click for undo
+                if event.button == 3:
+                    lines.pop()
 
         if drawing and start_pos:
             end_pos = pygame.mouse.get_pos() # Update the end position to follow the cursor
