@@ -8,7 +8,7 @@ from imports import robots
 
 clock = pygame.time.Clock()
 MAX_SIZE = (400,400)
-image = Image.open(r"data\\preset-images\\easy_image.jpg")
+image = Image.open(r"data\\preset-images\\hard_image.jpg")
 image.thumbnail(MAX_SIZE)
 
 screen = pygame.display.set_mode(image.size)
@@ -53,7 +53,11 @@ while run:
         pygame.draw.line(screen, (0,255,0), points[2], points[3], 2)
         pygame.draw.line(screen, (0,255,0), points[3], points[0], 2)
 
-        print(sort_points(points))
+        print(f"{(points[0], points[1])},")
+        print(f"{(points[1], points[2])},")
+        print(f"{(points[2], points[3])},")
+        print(f"{(points[3], points[0])},")
+
         points = []
 
     pygame.display.flip()

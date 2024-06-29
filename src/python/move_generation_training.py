@@ -10,50 +10,98 @@ import sys
 from PIL import Image 
 # import robots
 # import src.python.robots
-from imports import robots
+from imports import nnet
+from imports.robots import NeuralRobot
 import numpy as np
 import random
-from imports.nnet import Nnet 
+import copy
 
-clock = pygame.time.Clock()
+NUM_BOTS = 5000
+START_POS = (30,15)
+
+
 MAX_SIZE = (400,400)
 image = Image.open(r"data\\preset-images\\hard_image.jpg")
 image.thumbnail(MAX_SIZE)
+clock = pygame.time.Clock()
 
 screen = pygame.display.set_mode(image.size)
 bg = pygame.image.fromstring(image.tobytes(), image.size, image.mode).convert()
 
 
-#TODO REPLACE THIS LIST COMPREHENSION WITH API CALL
-movements = [(random.choice([-5,0,5]),random.choice([-5,0,5])) for i in range(500)]
+obs = [
+    [(0,0),(0,image.size[1])],
+    [(0,image.size[1]-1),(image.size[0]-1,image.size[1]-1)],
+    [(image.size[0]-1,image.size[1]-1),(image.size[0]-1,0)],
+    [(image.size[0]-1,0),(0,0)],
+
+((0, 50), (70, 50)),
+((140,0),(140,110)),
+((140,110),(50,110))
+]
+
+robots = [NeuralRobot(*START_POS) for _ in range(NUM_BOTS)]
 
 run = True
-robot = robots.PygameRobot(0,0)
-pygame.display.set_caption("Moving")
-for mov in movements:
-    if not run:
-        pygame.quit()
-        break
-    clock.tick(60)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
+while run:
+    frames = 0
+    generation = True
+    while generation:
+        num_alive = 0
+        frames+=1
+        if not run:
+            pygame.quit()
+            break
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                # Left click ends current generation
+                if event.button == 1:
+                    generation = False 
+                    continue
 
+        screen.fill(0)
+        screen.blit(bg, (0,0))
+        clock.tick(60)
 
-    robot.move(*mov)
-    if robot.get_x() > image.size[0]-robot.size:
-        robot.x = 400
-    if robot.get_x() < 0:
-        robot.x=0
-    if robot.get_y() > image.size[1]-robot.size:
-        robot.y = 400
-    if robot.get_y() < 0:
-        robot.y = 0
+        for rob in robots:
+            if not rob.alive:
+                continue
+            rob.nnet_move(obs, rob.size*1, screen)
+            if len(rob.total_coords)<7 and frames>10:
+                rob.alive = False
+                continue
+            elif len(rob.total_coords)<20 and frames>30:
+                rob.alive=False
+                continue
 
+            pygame.draw.rect(screen, (0,0,255), rob.to_pygame_rect())
+            num_alive += 1
+            
+        for ob in obs:
+            pygame.draw.line(screen, (0,255,0), ob[0], ob[1], 2)
 
-    screen.fill(0)
-    screen.blit(bg, (0,0))
+        pygame.display.flip()
 
-    pygame.draw.rect(screen, (0,0,255), robot.to_pygame_rect())
-
-    pygame.display.flip()
+        if (frames > 3333333333) or (num_alive == 0):
+            generation=False # early stopping
+    # START end of generation logic
+    # wont use breeding, just mixing for now 
+    best_nnet = None 
+    best_fitness = 0 
+    for rob in robots:
+        rob.alive=True 
+        if rob.get_fitness()>best_fitness:
+            best_fitness = rob.get_fitness()
+            best_nnet = copy.deepcopy(rob.nnet)
+    # best nnet is found, now apply that to every robot
+    for rob in robots:
+        rob.nnet = copy.deepcopy(best_nnet)
+        rob.nnet.modify_weights()
+        # reset the position
+        rob.update_pos(START_POS)
+    
+    print(f"Best Fitness: {best_fitness}")
+    print(f"Network:")
+    print(best_nnet.extract_weights())
