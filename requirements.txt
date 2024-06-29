@@ -1,2 +1,5 @@
 numpy
 pytest
+pygame
+PIL
+random
