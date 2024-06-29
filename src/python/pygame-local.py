@@ -66,7 +66,7 @@ def record_line(screen):
         screen.blit(bg, (0, 0))
 
         for l in lines:
-            if check_collision(robot, l):
+            if robot.check_collision(l):
                 l = (l[0], (255, 0, 0), l[2], l[3], l[4])  # Change color to red
             pygame.draw.line(*l)
 
@@ -79,25 +79,6 @@ def record_line(screen):
         # Update the display to show the line
         pygame.display.flip()
 
-def check_collision(robot, line):
-    """
-    Check if the robot's rectangle intersects with a line segment.
-    """
-    robot_rect = pygame.Rect(*robot.to_pygame_rect())
-    x1, y1 = line[2]
-    x2, y2 = line[3]
-    
-    # Check for intersection with all four edges of the robot's rectangle
-    edges = [
-        ((robot_rect.left, robot_rect.top), (robot_rect.right, robot_rect.top)),
-        ((robot_rect.right, robot_rect.top), (robot_rect.right, robot_rect.bottom)),
-        ((robot_rect.right, robot_rect.bottom), (robot_rect.left, robot_rect.bottom)),
-        ((robot_rect.left, robot_rect.bottom), (robot_rect.left, robot_rect.top)),
-    ]
-    for edge in edges:
-        if lines_intersect(x1, y1, x2, y2, edge[0][0], edge[0][1], edge[1][0], edge[1][1]):
-            return True
-    return False
 
 def lines_intersect(x1, y1, x2, y2, x3, y3, x4, y4):
     """
@@ -141,7 +122,7 @@ while run:
 
     # Adding this makes the lines stay when switching between recording and movement
     for l in lines:
-        if check_collision(robot, l):
+        if robot.check_collision(l):
             l = (l[0], (255, 0, 0), l[2], l[3], l[4])  # Change color to red
         pygame.draw.line(*l)
 
