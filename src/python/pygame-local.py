@@ -1,8 +1,9 @@
 import pygame
 import sys 
 from PIL import Image 
-import robots
-# import src.python.BaseRobot
+# import robots
+# import src.python.robots
+from imports import robots
 
 clock = pygame.time.Clock()
 MAX_SIZE = (400,400)
@@ -26,6 +27,8 @@ def record_line(screen):
 
     recording = True
     while recording:
+        pygame.display.set_caption(f"Drawing - Start:{start_pos} End:{end_pos}")
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return  # Exit if the user quits
@@ -47,11 +50,13 @@ def record_line(screen):
                         print(f"Line: {start_pos}, {end_pos}")  
                         lines.append((screen, line_color, start_pos, end_pos, 2))
                         # Draw the line on the screen   
-                        start_pos = None # Reset starting position after drawing line
+                        # start_pos = None # Reset starting position after drawing line
 
                 # Right click for undo
                 if event.button == 3:
-                    lines.pop()
+                    start_pos=None
+                    end_pos=None
+                    drawing = False
 
         if drawing and start_pos:
             end_pos = pygame.mouse.get_pos() # Update the end position to follow the cursor
