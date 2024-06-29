@@ -45,7 +45,14 @@ while run:
                 points.append(event.pos)  # Record point 
 
     if len(points) == 4:
-        pygame.draw.polygon(screen, (0,255,0), sort_points(points), 2)
+        points = sort_points(points)
+        # pygame.draw.polygon(screen, (0,255,0), sort_points(points), 2)
+        # above is how it should be drawn, below is what collision checks look like
+        pygame.draw.line(screen, (0,255,0), points[0], points[1], 2)
+        pygame.draw.line(screen, (0,255,0), points[1], points[2], 2)
+        pygame.draw.line(screen, (0,255,0), points[2], points[3], 2)
+        pygame.draw.line(screen, (0,255,0), points[3], points[0], 2)
+
         print(sort_points(points))
         points = []
 
