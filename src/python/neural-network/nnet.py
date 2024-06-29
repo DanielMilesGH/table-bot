@@ -37,13 +37,17 @@ class Nnet:
 		self.final_inputs=final_inputs
 		self.final_outputs=final_outputs
 
-	def extract_weights(self, fileToWriteTo=None):
+	def extract_weights(self, fileToWriteTo=None) -> bool:
 		# TODO implement writing to a file instead of to stdout
 		print(self.hidden_inputs)
 		print(self.hidden_outputs)
 		print(self.final_inputs)
 		print(self.final_outputs)
 
+		# this return value indicates writing success, which
+		# matters when we implement writing to a file
+		return True
+	
 	def get_outputs(self, inputs_list):
 		# getting list of inputs, and converting it into a 2 dimensional numpy array, [[i1],[i2],[i3]].
 		# we then transpose it to turn it into a column vector
