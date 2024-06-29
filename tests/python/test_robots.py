@@ -1,5 +1,5 @@
 import pytest 
-from src.python.robots import BaseRobot
+from src.python.imports.robots import BaseRobot
 
 def test_intint_coord_init():
     pos = (5,5)
