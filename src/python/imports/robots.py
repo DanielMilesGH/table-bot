@@ -1,4 +1,6 @@
 import pygame
+from nnet import Nnet
+
 class BaseRobot():
     x: int # positive integer
     y: int # positive integer 
@@ -68,6 +70,70 @@ class PygameRobot(BaseRobot):
             if self.__lines_intersect(x1, y1, x2, y2, edge[0][0], edge[0][1], edge[1][0], edge[1][1]):
                 return True
         return False
+
+class NeuralRobot(BaseRobot):
+    def __init__(self, x:int, y:int, pos:tuple[int,int] | None = None):
+        super().__init__(x,y,pos)
+        self.nnet = Nnet(4, 4, 2)
+        self.alive = True 
+        self.fitness = 0
+        self.total_coords = set() 
+    
+    def get_fitness(self):
+        # can be changed later to include time
+        return len(self.total_coords)
+    
+    def get_vision(self, obs, dist) -> list[int,int,int,int]:
+        # centered about its center, not its actual coords
+        # vision is currently binary
+        centerX = self.x+(self.size//2)
+        centerY = self.y+(self.size//2)
+        if (dist < self.size//2):
+            raise ValueError("dist should be greater than size//2")
+        
+        north = ((centerX,centerY), (centerX,centerY-dist))
+        south = ((centerX,centerY), (centerX,centerY+dist))
+        east =  ((centerX,centerY), (centerX+dist,centerY))
+        west =  ((centerX,centerY), (centerX-dist,centerY))
+
+        hits = [0,0,0,0]
+        # there's gotta be a better way, but this works
+        for ob in obs:
+            if ob.clipline(north):
+                hits[0] = 1
+            if ob.clipline(south):
+                hits[1] = 1
+            if ob.clipline(east):
+                hits[2] = 1
+            if ob.clipline(west):
+                hits[3] = 1
+
+        return hits
+
+    def nnet_move(self, obs, dist):
+        dx, dy = 0, 0
+        vision = self.get_vision(obs, dist)
+        outs = self.nnet.get_outputs(vision)
+
+        if outs[0] > 0.5:
+            dx = 1
+        elif outs[0] < 0.5:
+            dx = -1
+        
+        elif outs[1] > 0.5:
+            dy = 1
+        elif outs[1] < 0.5:
+            dy = -1
+
+        if (dx,dy) not in self.total_coords:
+            self.total_coords.add((dx,dy))
+
+        self.move(dx,dy)
+    
+class NeuralPygameRobot(NeuralRobot, PygameRobot):
+    # exists only to inherit methods
+    pass 
+
 
 if __name__ == "__main__":
     print("This is meant for importing!")
