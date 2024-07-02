@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     presetElements.forEach(presetElement => {
         presetElement.querySelector('button').addEventListener('click', () => {
             const selectedPreset = presetElement.getAttribute('data-preset');
-            const imagePath = selectedPreset === 'preset1' ? '/data/preset-images/easy_image.jpg' : '/data/preset-images/hard_image.jpg';
+            const imagePath = selectedPreset === 'preset1' ? '../../data/preset-images/easy_image.jpg' : '../../data/preset-images/hard_image.jpg';
             window.location.href = `view.html?image=${encodeURIComponent(imagePath)}`;
         });
     });
