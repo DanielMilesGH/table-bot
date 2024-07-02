@@ -79,7 +79,7 @@ class PygameRobot(BaseRobot):
 class NeuralRobot(PygameRobot):
     def __init__(self, x:int, y:int, pos:tuple[int,int] | None = None):
         super().__init__(x,y,pos)
-        self.nnet = nnet.Nnet(4, 6, 2)
+        self.nnet = Nnet(4, 6, 2)
         self.alive = True 
         self.fitness = 0
         self.total_coords = set() 
@@ -112,19 +112,19 @@ class NeuralRobot(PygameRobot):
         for ob in obs:
 
             if self.lines_intersect(north[0][0], north[0][1], north[1][0], north[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 hits[0] = 1
                 
             if self.lines_intersect(south[0][0], south[0][1], south[1][0], south[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 hits[1] = 1
 
             if self.lines_intersect(east[0][0], east[0][1], east[1][0], east[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 hits[2] = 1
 
             if self.lines_intersect(west[0][0], west[0][1], west[1][0], west[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 hits[3] = 1
 
         # check if alive still
@@ -135,19 +135,19 @@ class NeuralRobot(PygameRobot):
 
         for ob in obs:
             if self.lines_intersect(north[0][0], north[0][1], north[1][0], north[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 self.alive = False
                 
             elif self.lines_intersect(south[0][0], south[0][1], south[1][0], south[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 self.alive = False
 
             elif self.lines_intersect(east[0][0], east[0][1], east[1][0], east[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 self.alive = False
 
             elif self.lines_intersect(west[0][0], west[0][1], west[1][0], west[1][1],
-                                      ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
                 self.alive = False
         return hits
 
