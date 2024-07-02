@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Bot - Image Upload or Preset</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to Table Bot</h1>
+        <p>Select a Preset Image or Upload Your Own</p>
+        <div class="gallery">
+            <div class="preset" data-preset="preset1">
+                <div class="preset-container">
+                    <p>Preset 1 (Easy)</p>
+                    <button>
+                        <img src="/data/preset-images/easy_image.jpg" alt="Easy">
+                    </button>
+                </div>
+            </div>
+            <div class="preset" data-preset="preset2">
+                <div class="preset-container">
+                    <p>Preset 2 (Hard)</p>
+                    <button>
+                        <img src="/data/preset-images/hard_image.jpg" alt="Hard">
+                    </button>
+                </div>
+            </div>
+            <div class="upload">
+                <div class="upload-container">
+                    <p>Upload Your Own Image</p>
+                    <button id="upload-button">
+                        <img src="/data/preset-images/placeholder_image.jpg" alt="Upload Your Own">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
