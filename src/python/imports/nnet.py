@@ -157,7 +157,7 @@ class Nnet:
         # made up of ar2
         return res
 
-    def printStuff(self):
+    def print_stuff(self):
         print('These are the weight values from input to hidden:', self.weight_input_hidden)
         print('\n')
         print('\n')
