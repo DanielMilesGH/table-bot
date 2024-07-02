@@ -35,7 +35,7 @@ class BaseRobot():
         self.x=pos[0]
         self.y=pos[1]
 
-    def move(self, dx, dy):
+    def move(self, dx: int, dy: int):
         self.x += dx 
         self.y += dy
     
@@ -45,11 +45,11 @@ class PygameRobot(BaseRobot):
     def to_pygame_rect(self) -> pygame.Rect:
         return pygame.Rect(self.x, self.y, self.size, self.size)
     
-    def lines_intersect(self, x1, y1, x2, y2, x3, y3, x4, y4):
+    def lines_intersect(self, x1: int, y1: int, x2: int, y2: int, x3: int, y3: int, x4: int, y4: int) -> bool:
         """
         Check if two line segments intersect.
         """
-        def ccw(A, B, C):
+        def ccw(A: tuple[int], B: tuple[int], C: tuple[int]):
             return (C[1] - A[1]) * (B[0] - A[0]) > (B[1] - A[1]) * (C[0] - A[0])
 
         A = (x1, y1)
@@ -134,21 +134,12 @@ class NeuralRobot(PygameRobot):
         west =  ((centerX,centerY), (centerX-1,centerY))
 
         for ob in obs:
-            if self.lines_intersect(north[0][0], north[0][1], north[1][0], north[1][1],
-                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
+            if any(self.lines_intersect(border[0][0], border[0][1], border[1][0], border[1][1], 
+                                ob[0][0], ob[0][1], ob[1][0], ob[1][1])
+            for border in [north, south, east, west]):
                 self.alive = False
-                
-            elif self.lines_intersect(south[0][0], south[0][1], south[1][0], south[1][1],
-                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
-                self.alive = False
-
-            elif self.lines_intersect(east[0][0], east[0][1], east[1][0], east[1][1],
-                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
-                self.alive = False
-
-            elif self.lines_intersect(west[0][0], west[0][1], west[1][0], west[1][1],
-                                    ob[0][0], ob[0][1], ob[1][0], ob[1][1]):
-                self.alive = False
+                break  # Stop checking as soon as a collision is found
+            
         return hits
 
     def nnet_move(self, obs, dist, screen=None):
