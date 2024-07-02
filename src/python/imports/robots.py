@@ -3,8 +3,9 @@ import random
 print(sys.path)
 
 import pygame
-# import nnet
-from imports import nnet
+from .nnet import Nnet
+# from imports import nnet
+# from imports.nnet import Nnet
 class BaseRobot():
     x: int # positive integer
     y: int # positive integer 
