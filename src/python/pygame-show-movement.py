@@ -24,7 +24,7 @@ bg = pygame.image.fromstring(image.tobytes(), image.size, image.mode).convert()
 
 
 #TODO REPLACE THIS LIST COMPREHENSION WITH API CALL
-movements = [(random.choice([-5,0,5]),random.choice([-5,0,5])) for i in range(500)]
+movements = [(random.choice([-5,0,5]),random.choice([-5,0,5])) for _ in range(500)]
 
 run = True
 robot = robots.PygameRobot(0,0)

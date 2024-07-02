@@ -59,7 +59,7 @@ while run:
                 # Left click ends current generation
                 if event.button == 1:
                     generation = False 
-                    continue
+                    
 
         screen.fill(0)
         screen.blit(bg, (0,0))
