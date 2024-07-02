@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener for the upload button
     uploadButton.addEventListener('click', () => {
-        const imagePath = '/data/preset-images/placeholder_image.jpg';
+        const imagePath = '../../data/preset-images/placeholder_image.jpg';
         window.location.href = `view.html?image=${encodeURIComponent(imagePath)}`;
     });
 
